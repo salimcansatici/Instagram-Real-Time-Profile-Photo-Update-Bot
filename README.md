@@ -1,4 +1,4 @@
-# Instagram-Canli-Saat-Profil-Fotograf-Yapma-Botu-
+# Instagram Canlı Saat Profil Fotograf Yapma Botu
 Instagram’da Canlı Saat Profil Fotoğrafı Yapma Botu v1.0.0 (Geliştirilmeye açık saf sürüm)
 
 
