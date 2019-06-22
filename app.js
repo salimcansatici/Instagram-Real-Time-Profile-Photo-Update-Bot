@@ -69,48 +69,57 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
     "./dakikalar/58.png",
     "./dakikalar/59.png",
     "./dakikalar/00.png"];
-
-  // for (let index = 0; index < 9999; index++) { //index = 0; kısmı kaçıncı dakikadan başlayacağını belirler
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: {
         width: 1024,
         height: 768,
-
+  
       },
     });
-
     const page = await browser.newPage();
-    await page.setUserAgent(USER_AGENT);
-    await page.goto('https://www.instagram.com/accounts/edit/');
-    await page.waitForSelector('input[name="username"]'); 
-    await page.type('input[name="username"]', 'KULLANICI_ADINIZ'); //'KULLANICI_ADINIZ '  KULLANICI_ADINIZ yazan kısma yani tırnakları silmeden tırnakların içerisine kullanıcı adınızı yazınız
-    await page.type('input[name="password"]', 'SIFRENIZ'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
-    await page.click('button[type="submit"]');
-    blockingWait(2);
-    await page.close(); //Navigation hatasını handle etmek biraz sıkıntılı bu kullandığımız modülde hata vermemesi için sekme isimlerini değiştirdim 
-    const sekme2 = await browser.newPage();
-    await sekme2.setUserAgent(USER_AGENT);
-    await sekme2.goto('https://www.instagram.com/accounts/edit/');
-    const pageTitle = await sekme2.title();
-    console.log(pageTitle)
-    //var findelement = await sekme2.$("#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type='file']");
-    const inputElement = await sekme2.$('#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type="file"]');
-    setInterval(function(){
+    
+   
+  await page.setUserAgent(USER_AGENT);
+  await page.goto('https://www.instagram.com/accounts/edit/');
+  await page.waitForSelector('input[name="username"]'); 
+  await page.type('input[name="username"]', 'KULLANICI_ADINIZ'); //'KULLANICI_ADINIZ '  KULLANICI_ADINIZ yazan kısma yani tırnakları silmeden tırnakların içerisine kullanıcı adınızı yazınız
+  await page.type('input[name="password"]', 'SIFRENIZ'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
+  await page.click('button[type="submit"]');
+  blockingWait(2);
+  await page.close(); //Navigation hatasını handle etmek biraz sıkıntılı bu kullandığımız modülde hata vermemesi için sekme isimlerini değiştirdim 
+  const sekme2 = await browser.newPage();
+  await sekme2.setUserAgent(USER_AGENT);
+  await sekme2.setUserAgent(USER_AGENT);
+  await sekme2.goto('https://www.instagram.com/accounts/edit/');
+  const pageTitle = await sekme2.title();
+  console.log(pageTitle)
+
+
+  // for (let index = 0; index < 9999; index++) { //index = 0; kısmı kaçıncı dakikadan başlayacağını belirler v1
+    
+blockingWait(2); //Zamanlayıcı
+    //var findelement = await sekme2.$("#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type='file']"); v1
+    const inputElement = await sekme2.$('#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type="file"]'); 
+    setInterval(function(){ 
       let date = new Date();
       let simdikiDakika = date.getMinutes();
-      await inputElement.uploadFile(sayilar[simdikiDakika]);
-    },1000);
+    inputElement.uploadFile(sayilar[simdikiDakika]);
+    },60000);
+    
     console.log("Başarılı");
-    blockingWait(52); //52 saniye bekletiyorum bu her bilgisayarda internet hızıne göre farklılık verebilir burayı daha detaylı hale getirilirse tadından yenmez. 
+     //52 saniye bekletiyorum bu her bilgisayarda internet hızıne göre farklılık verebilir burayı daha detaylı hale getirilirse tadından yenmez. 
     //Bir sonraki versiyonda daha kapsamlı daha tutarlı kodlayacağım. 
-    console.log(index + " .Sıra Sayısı");
-    await browser.close();
- // }
+    
+    
+  }
 
 
 
-})();
+)();
+
+
+
 
 function blockingWait(seconds) {
   //basit bloklama beklemesi
