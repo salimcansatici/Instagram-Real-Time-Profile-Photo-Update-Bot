@@ -70,7 +70,7 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
     "./dakikalar/59.png",
     "./dakikalar/00.png"];
 
-  for (let index = 0; index < 9999; index++) { //index = 0; kısmı kaçıncı dakikadan başlayacağını belirler
+  // for (let index = 0; index < 9999; index++) { //index = 0; kısmı kaçıncı dakikadan başlayacağını belirler
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: {
@@ -96,13 +96,17 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
     console.log(pageTitle)
     //var findelement = await sekme2.$("#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type='file']");
     const inputElement = await sekme2.$('#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type="file"]');
-    await inputElement.uploadFile(sayilar[index]);
+    setInterval(function(){
+      let date = new Date();
+      let simdikiDakika = date.getMinutes();
+      await inputElement.uploadFile(sayilar[simdikiDakika]);
+    },1000);
     console.log("Başarılı");
     blockingWait(52); //52 saniye bekletiyorum bu her bilgisayarda internet hızıne göre farklılık verebilir burayı daha detaylı hale getirilirse tadından yenmez. 
     //Bir sonraki versiyonda daha kapsamlı daha tutarlı kodlayacağım. 
     console.log(index + " .Sıra Sayısı");
     await browser.close();
-  }
+ // }
 
 
 
