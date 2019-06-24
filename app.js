@@ -71,7 +71,7 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
     "./dakikalar/59.png",
     "./dakikalar/00.png"];
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: {
         width: 1024,
         height: 768,
