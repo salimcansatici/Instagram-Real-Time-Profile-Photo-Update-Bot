@@ -1,6 +1,7 @@
-const puppeteer = require('puppeteer'); //Salimcan Satıcı
+const puppeteer = require('puppeteer'); //Salimcan Satıcı 
 const fs = require('fs');
 var readline = require('readline-sync');
+var Jimp = require('jimp'); //
 
 const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36';
 (async () => {
@@ -8,16 +9,16 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
 //Yurtdışında birinde görmüş olduğum programı Nodejs + Puppeteer chrome kullanarak yazdım. 
 //Piyasada ilklerdendir
 
-  var sayilar = ["./dakikalar/00.png",
-    "./dakikalar/01.png",
-    "./dakikalar/02.png",
-    "./dakikalar/03.png",
-    "./dakikalar/04.png",
-    "./dakikalar/05.png",
-    "./dakikalar/06.png",
-    "./dakikalar/07.png",
-    "./dakikalar/08.png",
-    "./dakikalar/09.png",
+  var sayilar = ["./dakikalar/0.png",
+  "./dakikalar/1.png",
+    "./dakikalar/2.png",
+    "./dakikalar/3.png",
+    "./dakikalar/4.png",
+    "./dakikalar/5.png",
+    "./dakikalar/6.png",
+    "./dakikalar/7.png",
+    "./dakikalar/8.png",
+    "./dakikalar/9.png",
     "./dakikalar/10.png",
     "./dakikalar/11.png",
     "./dakikalar/12.png",
@@ -70,7 +71,7 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
     "./dakikalar/59.png",
     "./dakikalar/00.png"];
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       defaultViewport: {
         width: 1024,
         height: 768,
@@ -79,7 +80,6 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
     });
     const page = await browser.newPage();
     
-   
   await page.setUserAgent(USER_AGENT);
   await page.goto('https://www.instagram.com/accounts/edit/');
   await page.waitForSelector('input[name="username"]'); 
@@ -87,7 +87,7 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
   await page.type('input[name="password"]', 'SIFRENIZ'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
   await page.click('button[type="submit"]');
   blockingWait(2);
-  await page.close(); //Navigation hatasını handle etmek biraz sıkıntılı bu kullandığımız modülde hata vermemesi için sekme isimlerini değiştirdim 
+  await page.close(); //Navigation hatasını handle etmek biraz sıkıntılı ve kullandığımız modülde hata vermemesi için bir nebze page variable transfer yapıldı
   const sekme2 = await browser.newPage();
   await sekme2.setUserAgent(USER_AGENT);
   await sekme2.setUserAgent(USER_AGENT);
@@ -98,27 +98,45 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
 
   // for (let index = 0; index < 9999; index++) { //index = 0; kısmı kaçıncı dakikadan başlayacağını belirler v1
     
-blockingWait(2); //Zamanlayıcı
-    //var findelement = await sekme2.$("#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type='file']"); v1
+blockingWait(2); 
+
     const inputElement = await sekme2.$('#react-root > section > main > div > article > div > div.XX1Wc > div > form > input[type="file"]'); 
+
     setInterval(function(){ 
       let date = new Date();
       let simdikiDakika = date.getMinutes();
-    inputElement.uploadFile(sayilar[simdikiDakika]);
-    },60000);
+      let simdikiSaat = date.getHours();
+      //Tarih'i çektik ***************************
+let kacinciGun = date.getDate();
+let kacinciayTemp= date.getMonth();
+let kacinciAy = kacinciayTemp+1;
+let kacinciYil = date.getFullYear();
+//******************************* */
+console.log(kacinciGun+"/"+kacinciAy+"/"+kacinciYil); // taraih olan aşağıda saat olan yukarda 
+      Jimp.read("http://lorempixel.com/320/320/sports/").then(function (delimg) { //Lorempixel.com'dan otomatik çektik.
+      Jimp.loadFont(Jimp.FONT_SANS_64_BLACK).then(function (font) { //siyah 64px yazı fontu open sans import ettik
+        delimg.blur( 20 ) //çektiğimiz resme blur atıyoruz
+        delimg.resize(320, 320) // 320x320 daha kaliteli çıkması sağlandı
+     delimg.HORIZONTAL_ALIGN_CENTER; 
+                      //80 Sağa / //20 Yukarı 
+                      // 15 sağa / // 80 yukarı
+        delimg.print(font, 80, 20, simdikiSaat+":"+simdikiDakika,80) 
+        delimg.print(font, 15, 80, kacinciGun+"/"+kacinciAy+"/"+kacinciYil,40) //119.satırda belirlediğimiz fontun içerisinde simdikiDakika değişkeninden geleni yazdırdık.
+        delimg.write('./dakikalar/'+simdikiDakika+'.png');
+      });
+      console.log("Dakika Oluşturuldu : "+simdikiDakika);
+});    
+
+
+    inputElement.uploadFile('./dakikalar/'+simdikiDakika+'.png');
+    },60000); //60 SANİYEDE BİR TEKRAR
     
     console.log("Başarılı");
-     //52 saniye bekletiyorum bu her bilgisayarda internet hızıne göre farklılık verebilir burayı daha detaylı hale getirilirse tadından yenmez. 
-    //Bir sonraki versiyonda daha kapsamlı daha tutarlı kodlayacağım. 
-    
-    
+     
+  
   }
 
-
-
 )();
-
-
 
 
 function blockingWait(seconds) {
