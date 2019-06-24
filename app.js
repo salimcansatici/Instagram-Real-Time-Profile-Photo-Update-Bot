@@ -106,6 +106,7 @@ blockingWait(2);
       let date = new Date();
       let simdikiDakika = date.getMinutes();
       let simdikiSaat = date.getHours();
+           simdikisaat = simdikiSaat+1;
       //Tarih'i çektik ***************************
 let kacinciGun = date.getDate();
 let kacinciayTemp= date.getMonth();
