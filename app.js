@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer'); //Salimcan Satıcı 
 const fs = require('fs');
-var readline = require('readline-sync');
 var Jimp = require('jimp'); //
 
 const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36';
@@ -74,7 +73,7 @@ var sayilar = ["./dakikalar/0.png",
 
 
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       defaultViewport: {
         width: 1024,
         height: 768,
@@ -82,21 +81,25 @@ var sayilar = ["./dakikalar/0.png",
       },
     });
     const page = await browser.newPage();
-    
+    console.log("Browser açılıyor");
   await page.setUserAgent(USER_AGENT);
+  console.log("Useragent tanımlandı");
   await page.goto('https://www.instagram.com/accounts/edit/');
+  console.log("Instagram edit yönlendirme sağlandı");
   await page.waitForSelector('input[name="username"]'); 
+  console.log("Girilecek text alanının yüklenmesini bekliyorum");
 
 
-  await page.type('input[name="username"]', 'KULLANICI_ADI'); //'KULLANICI_ADINIZ '  KULLANICI_ADINIZ yazan kısma yani tırnakları silmeden tırnakların içerisine kullanıcı adınızı yazınız
-  await page.type('input[name="password"]', 'ŞİFRENİZ'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
-
+  await page.type('input[name="username"]', 'KULLANICIADINIZIIBURAYAGIRIN'); //'KULLANICI_ADINIZ '  KULLANICI_ADINIZ yazan kısma yani tırnakları silmeden tırnakların içerisine kullanıcı adınızı yazınız
+  console.log("Kullanıcı adı textbox'ına kullanıcı adınız yazılıyor");
+  await page.type('input[name="password"]', 'SIFRENIZIBURAYAGIRIN'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
+  console.log("Şifreniz textbox'ına şifreniz yazılıyor. Programda kesinlikle bir veri gönderimi gibi bir durum yok aksi durumda kodları inceleyin inceletiniz. Sorumluluk size aittir.");
 
   await page.click('button[type="submit"]');
-  blockingWait(2);
+  console.log("Giriş yap butonuna tıkladım.")
+  blockingWait(4);
   await page.close(); //Navigation hatasını handle etmek biraz sıkıntılı ve kullandığımız modülde hata vermemesi için bir nebze page variable transfer yapıldı
   const sekme2 = await browser.newPage();
-  await sekme2.setUserAgent(USER_AGENT);
   await sekme2.setUserAgent(USER_AGENT);
   await sekme2.goto('https://www.instagram.com/accounts/edit/');
   const pageTitle = await sekme2.title();
@@ -126,11 +129,11 @@ var filePath = './dakikalar/'+simdikiDakika+'.png';
   fs.unlinkSync(filePath); 
   console.log(filePath+" SİLİNDİ");
 
-
-Jimp.read("./dakikalar/beyaz-arkaplan.png").then(function (delimg) {
+ //http://lorempixel.com/320/320/ random fotoğraf çekmek için eklendi dilerseniz beyaz arkaplan bir resmin yolunu verip beyaz arkaplana da yazdırabilirsiniz.
+Jimp.read("http://lorempixel.com/320/320/").then(function (delimg) { 
   
 Jimp.loadFont(Jimp.FONT_SANS_64_BLACK).then(function (font) { 
-  delimg.blur( 20 ) 
+  delimg.blur( 20 );
   delimg.resize(320, 320) 
 delimg.HORIZONTAL_ALIGN_CENTER; 
                 //80 Sağa / //20 Yukarı
