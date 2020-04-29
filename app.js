@@ -48,7 +48,7 @@ var fotogradedi=24; //Fotoğraf adediniz kaç taneyse o kadar yazınız.
 for (let tekrar = 0; tekrar < 999999999; tekrar++) {
   for (let index = 0; index < fotogradedi; index++) {
     blockingWait(5);
-  inputElement.uploadFile('./dakikalar/'+photoNum+'.jpg');
+  inputElement.uploadFile('./resimler/'+photoNum+'.jpg');
  
   console.log("Şu numaralı bitmoji yüklenecektir -> "+photoNum);
   photoNum++;
