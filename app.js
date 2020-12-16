@@ -25,9 +25,9 @@ const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/
   await page.waitForSelector('input[name="username"]'); 
    //console.log("Girilecek text alanının yüklenmesini bekliyorum");
 
-  await page.type('input[name="username"]', 'burayakullanıcıadınız'); //'KULLANICI_ADINIZ '  KULLANICI_ADINIZ yazan kısma yani tırnakları silmeden tırnakların içerisine kullanıcı adınızı yazınız
+  await page.type('input[name="username"]', 'havvanbeats'); //'KULLANICI_ADINIZ '  KULLANICI_ADINIZ yazan kısma yani tırnakları silmeden tırnakların içerisine kullanıcı adınızı yazınız
   // console.log("Kullanıcı adı textbox'ına kullanıcı adınız yazılıyor");
-  await page.type('input[name="password"]', 'şifreniz'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
+  await page.type('input[name="password"]', 'hesenhesen'); // Aynı şekilde SIFRENIZ kısmına da o şekilde boşluk bırakmayın
  // console.log("Şifreniz textbox'ına şifreniz yazılıyor. Programda kesinlikle bir veri gönderimi gibi bir durum yok aksi durumda kodları inceleyin inceletiniz. Sorumluluk size aittir.");
 
   await page.click('button[type="submit"]');
